@@ -2,7 +2,19 @@
 df <- X1_Badly_Structured_Sales_Data_1
 
 
+#The goal is to tidy the data and make it suitable for Analysis
+#The Data and the Final Dataset is included in the sheet
 library(tidyverse)
+
+#there are three sections in the data as depicted in the excel sheet:
+#Consumer
+#Corporate
+#Home
+
+#My Approach; I selected the columns related to each section and the identifying ID
+#I gather the data. Then the gather data were then column binded into a single data.
+#To deal with the duplicate values. They were mainly repetitions evolving from the 
+#Total column. I removed that row from the data and the final data was obtained
 
 a <- df %>% 
   select(1:6) %>% 
