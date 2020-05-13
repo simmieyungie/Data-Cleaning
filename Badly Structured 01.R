@@ -35,9 +35,10 @@ c <- df %>%
   mutate(segment = "home")
 
 
-
+#Bind all data together
 d <- bind_rows(a,b,c)
 
+#Drop NA values in the Sales data
 e = d %>% 
   drop_na(Sales)
 
@@ -49,3 +50,26 @@ e <- e %>%
 
 #Examine if there are duplicated columns
 e[duplicated(e$`Ship Mode>>`),]
+
+
+#Replace all the names correctly
+#Using a str_detect with a replace function solves this problem
+fnd <- e %>% 
+  mutate(`Ship Mode` = replace(`Ship Mode`, str_detect(`Ship Mode`, "First Class"), "First Class")) %>% 
+  mutate(`Ship Mode` = replace(`Ship Mode`, str_detect(`Ship Mode`, "Same Day"), "Same Day")) %>% 
+  mutate(`Ship Mode` = replace(`Ship Mode`, str_detect(`Ship Mode`, "Second Class"), "Second Class")) %>% 
+  mutate(`Ship Mode` = replace(`Ship Mode`, str_detect(`Ship Mode`, "Standard Class"), "Standard Class"))
+
+
+#Change column names
+names(fnd) <- c("Order ID", "Ship Mode", "Sales", "Segment")
+
+
+#Rearrange columns 
+fnd <- fnd %>% 
+  select(4, 2, 1, 3)
+
+write.csv(fnd, "Cleaned_Data_01.csv")
+
+
+#PS: Don't mind my naming convention.. lol
